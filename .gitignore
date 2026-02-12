@@ -1,0 +1,25 @@
+# --- SECURITY FIREWALL ---
+# Ignoriere alle Environment-Variablen & Secrets
+.env
+
+# --- LOKALE ORCHESTRIERUNG (Privat) ---
+# Diese Ordner verlassen niemals deinen PC
+ops/
+config/
+.git/
+scripts/
+
+# --- PYTHON STANDARD ---
+__pycache__/
+*.pyc
+venv/
+.pytest_cache/
+
+# --- LOGS & DATEN ---
+logs/
+*.log
+data/
+db/
+
+# --- SYSTEM ---
+.DS_Store
