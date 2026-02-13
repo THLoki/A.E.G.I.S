@@ -20,5 +20,8 @@ logs/
 data/
 db/
 
+# --- AI MODELS (Large binary files, never commit) ---
+models/
+
 # --- SYSTEM ---
 .DS_Store
