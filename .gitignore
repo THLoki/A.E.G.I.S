@@ -6,13 +6,12 @@
 # Diese Ordner verlassen niemals deinen PC
 ops/
 config/
-.git/
-scripts/
 
 # --- PYTHON STANDARD ---
 __pycache__/
 *.pyc
 venv/
+.venv/
 .pytest_cache/
 
 # --- LOGS & DATEN ---
