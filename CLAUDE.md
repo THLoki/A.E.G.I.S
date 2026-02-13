@@ -31,7 +31,7 @@ You must follow this workflow for EVERY task. Do not commit directly to `main`.
 ## Technology Stack
 * **Language:** Python 3.13 (venv at `.venv/`). Compatible with 3.10+ code.
 * **Package Manager:** `pip` (inside `venv`).
-* **Core Libraries:** `torch` (CUDA 12.x), `transformers`, `accelerate`, `airllm`, `chromadb`.
+* **Core Libraries:** `torch` (CUDA 12.x), `transformers`, `accelerate`, `airllm`, `llama-cpp-python` (GGUF inference), `chromadb`.
 * **Communication:** Telegram Bot API, SMTP/IMAP.
 
 ## Critical Architecture Constraints
@@ -49,6 +49,15 @@ You must follow this workflow for EVERY task. Do not commit directly to `main`.
 * **Typing:** Use Python Type Hints (`def process(text: str) -> bool:`).
 * **Logging:** Use the standard `logging` library. Print to stdout/stderr is acceptable for MVP debugging but structured logging is preferred.
 * **Pathing:** Use `pathlib` for file system operations.
+
+## Fast Brain
+* **Model:** `bartowski/Meta-Llama-3.1-8B-Instruct-GGUF` (Q4_K_M quantization, ~4.9GB)
+* **Engine:** `llama-cpp-python` with full GPU offload (`n_gpu_layers=-1`)
+* **VRAM usage:** ~5GB with `n_ctx=4096`. Leaves ~3GB headroom on RTX 3070.
+* **Performance:** ~69 t/s on RTX 3070 (well above 30 t/s target).
+* **Install note:** Requires CUDA toolkit (`sudo apt install nvidia-cuda-toolkit`), then `CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python`. Pre-built wheels do NOT include CUDA for Python 3.13.
+* **Prompts:** System prompts live in `src/core/prompts.py` (tracked), not `config/` (gitignored).
+* **Async wrapping:** `generate_response()` is sync. Use `asyncio.to_thread()` in async contexts.
 
 ## Meta-Learning & Documentation
 * **Maintain this file:** If you encounter a recurring issue, a change in hardware constraints, or a new architectural decision during development, **UPDATE THIS `CLAUDE.md` FILE** in your Pull Request.
